@@ -34,13 +34,13 @@ const removeItem = (cartItems, product) => {
 };
 
 const deleteItem = (cartItems, product) => {
-  let updatedItems;
-  updatedItems = cartItems.filter((item) => item.id !== product.id);
-  return [...updatedItems];
+  return cartItems.filter((item) => item.id !== product.id);
 };
 const countTotalPrice = (cartItems) => {
-  let total;
-  total = cartItems.map((item) => item.price * item.quantity);
+  let total = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
   return total;
 };
 
