@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AuthContextProvider from "./components/store/auth-context";
 import { BrowserRouter } from "react-router-dom";
-import ProductsContextProvider from "./components/store/products-context";
+import CategoriesContextProvider from "./components/store/categories-context";
 import CartContextProvider from "./components/store/cart-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -13,11 +13,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-        <ProductsContextProvider>
+        <CategoriesContextProvider>
           <CartContextProvider>
             <App />
           </CartContextProvider>
-        </ProductsContextProvider>
+        </CategoriesContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>
