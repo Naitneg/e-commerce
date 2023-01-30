@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocument,
@@ -9,9 +9,30 @@ export const AuthContext = React.createContext({
   setCurrentUser: () => {},
 });
 
+const userReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_USER":
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    default:
+      throw new Error(`unhandlet type ${action.type}`);
+  }
+};
+
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 const AuthContextProvider = (props) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const value = { currentUser, setCurrentUser };
+  const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
+
+  const setCurrentUser = (user) => {
+    dispatch({ type: "SET_USER", payload: user });
+  };
+
+  const value = { currentUser: state.currentUser, setCurrentUser };
 
   useEffect(() => {
     const unsubcribe = onAuthStateChangedListener((user) => {

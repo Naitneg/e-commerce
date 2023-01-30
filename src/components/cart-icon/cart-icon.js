@@ -4,18 +4,19 @@ import {
   ItemCount,
 } from "./cart-icon.styles.js";
 
-import { useContext } from "react";
-import { CartContext } from "../store/cart-context";
+import { useDispatch, useSelector } from "react-redux";
+import { cartOpenHandler } from "../../redux/cart/cart-action.js";
 
 const CartIcon = () => {
-  const cartCtx = useContext(CartContext);
+  const dispatch = useDispatch();
   const toggleCart = () => {
-    cartCtx.setIsCartOpen(!cartCtx.isCartOpen);
+    dispatch(cartOpenHandler());
   };
+  const totalQuantity = useSelector((state) => state.cart.itemsQuantity);
   return (
     <CartIconContainer onClick={toggleCart}>
       <ShoppingIconStyle />
-      <ItemCount>{cartCtx.totalQuantity}</ItemCount>
+      <ItemCount>{totalQuantity}</ItemCount>
     </CartIconContainer>
   );
 };
