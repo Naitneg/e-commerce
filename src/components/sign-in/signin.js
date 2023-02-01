@@ -1,10 +1,11 @@
 import React, { useState, Fragment } from "react";
-import {
-  signInWithGooglePopup,
-  signInAuthUser,
-} from "../../utils/firebase/firebase.utils";
+import { useDispatch } from "react-redux";
 import Button, { BUTTON_STYLES_CLASSES } from "../../components/button/button";
 import FormInput from "../../components/form-input/form-input";
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../redux/user/user-action";
 const INITIAL_VALUE = {
   email: "",
   password: "",
@@ -12,7 +13,7 @@ const INITIAL_VALUE = {
 
 const SignIn = () => {
   const [formInputs, setFormInputs] = useState(INITIAL_VALUE);
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInputs({ ...formInputs, [name]: value });
@@ -24,7 +25,7 @@ const SignIn = () => {
       return;
     }
     try {
-      await signInAuthUser(formInputs.email, formInputs.password);
+      dispatch(emailSignInStart(formInputs.email, formInputs.password));
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -39,7 +40,7 @@ const SignIn = () => {
     }
   };
   const logGoogleUser = async () => {
-    await signInWithGooglePopup();
+    dispatch(googleSignInStart());
   };
   return (
     <Fragment>
